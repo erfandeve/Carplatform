@@ -1,0 +1,8 @@
+{
+  "name": "carplatform",
+  "private": true,
+  "description": "Root wrapper so Vercel builds the backend-free static app in frontend-static/",
+  "scripts": {
+    "build": "npm --prefix frontend-static install && npm --prefix frontend-static run build"
+  }
+}
