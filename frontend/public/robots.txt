@@ -1,0 +1,9 @@
+# اتوشعبانی — AutoShabani
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /login
+Disallow: /register
+
+Sitemap: https://autoshabani.com/sitemap.xml

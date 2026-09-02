@@ -1,0 +1,472 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/vazirmatn';
+
+/* ============================================================
+   شعبانی خودرو — Design System
+   Register: Brand / luxury automotive. Strategy: Committed.
+   Deep navy-black surface carries the page; neon blue is the
+   accent + glow. OKLCH throughout.
+   ============================================================ */
+
+@theme {
+  /* Surfaces (dark navy ramp) */
+  --color-bg: oklch(0.15 0.028 258);
+  --color-bg-2: oklch(0.18 0.03 258);
+  --color-surface: oklch(0.21 0.033 258);
+  --color-surface-2: oklch(0.25 0.036 258);
+  --color-line: oklch(0.31 0.035 258);
+  --color-line-strong: oklch(0.4 0.05 255);
+
+  /* Ink */
+  --color-ink: oklch(0.97 0.008 250);
+  --color-ink-2: oklch(0.82 0.02 250);
+  --color-muted: oklch(0.7 0.025 252); /* ≥4.5:1 on --bg */
+  --color-faint: oklch(0.58 0.025 255);
+
+  /* Brand — neon blue + light blue */
+  --color-neon: oklch(0.72 0.17 244);
+  --color-neon-bright: oklch(0.8 0.16 240);
+  --color-sky: oklch(0.85 0.11 228);
+  --color-neon-deep: oklch(0.5 0.16 252);
+
+  /* Status badge hues (4 customs states) */
+  --color-free-perm: oklch(0.78 0.16 162); /* منطقه آزاد دائم — emerald */
+  --color-free-temp: oklch(0.82 0.13 205); /* منطقه آزاد موقت — cyan   */
+  --color-gozar-perm: oklch(0.72 0.15 300); /* گذر دائم       — violet */
+  --color-gozar-temp: oklch(0.82 0.15 78); /* گذر موقت       — amber  */
+
+  --color-danger: oklch(0.68 0.2 22);
+  --color-success: oklch(0.78 0.16 162);
+
+  /* Type */
+  --font-sans: 'Vazirmatn Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /* ---- Admin panel: independent LIGHT dashboard theme ----
+     Intentionally distinct from the dark-neon storefront so daily
+     admin work is comfortable. Register: product (design serves work). */
+  --color-admin-bg: oklch(0.975 0.004 250);
+  --color-admin-surface: oklch(1 0 0);
+  --color-admin-surface-2: oklch(0.985 0.004 250);
+  --color-admin-line: oklch(0.91 0.006 255);
+  --color-admin-line-2: oklch(0.86 0.008 255);
+  --color-admin-ink: oklch(0.27 0.02 260);
+  --color-admin-ink-2: oklch(0.42 0.02 260);
+  --color-admin-muted: oklch(0.56 0.02 260);
+  --color-admin-primary: oklch(0.55 0.19 258);
+  --color-admin-primary-ink: oklch(0.99 0 0);
+  --color-admin-primary-weak: oklch(0.95 0.03 258);
+  --color-admin-sidebar: oklch(0.22 0.03 262);
+  --color-admin-sidebar-ink: oklch(0.86 0.02 258);
+  --color-admin-danger: oklch(0.58 0.2 25);
+  --color-admin-success: oklch(0.62 0.15 155);
+  --color-admin-warning: oklch(0.72 0.15 70);
+
+  /* Radii — cards top out at 16px per design rules */
+  --radius-card: 16px;
+
+  /* Motion — ease-out exponential, no bounce */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Semantic z-index scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-backdrop: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+}
+
+@layer base {
+  body {
+    margin: 0;
+    background-color: var(--color-bg);
+    color: var(--color-ink-2);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Ambient neon aura anchored to the top of the page */
+  body {
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(
+        60rem 40rem at 82% -8%,
+        oklch(0.5 0.16 250 / 0.28),
+        transparent 60%
+      ),
+      radial-gradient(
+        50rem 34rem at 6% 0%,
+        oklch(0.55 0.13 220 / 0.16),
+        transparent 55%
+      );
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: var(--color-ink);
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+    line-height: 1.12;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: oklch(0.72 0.17 244 / 0.3);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-neon-bright);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line-strong) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-line-strong);
+    border-radius: 99px;
+    border: 2px solid var(--color-bg);
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Glass surface — used purposefully for sticky header + overlays */
+  .glass {
+    background: oklch(0.17 0.03 258 / 0.72);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-block-end: 1px solid oklch(0.4 0.05 255 / 0.25);
+  }
+
+  /* Primary neon CTA with intentional glow */
+  .btn-neon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: oklch(0.16 0.03 258);
+    background: linear-gradient(
+      135deg,
+      var(--color-sky),
+      var(--color-neon)
+    );
+    border-radius: 12px;
+    padding: 0.8rem 1.6rem;
+    box-shadow:
+      0 0 0 1px oklch(0.85 0.11 228 / 0.4),
+      0 8px 30px -8px oklch(0.72 0.17 244 / 0.7);
+    transition:
+      transform 0.4s var(--ease-out-quint),
+      box-shadow 0.4s var(--ease-out-quint),
+      filter 0.3s ease;
+  }
+  .btn-neon:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+    box-shadow:
+      0 0 0 1px oklch(0.85 0.11 228 / 0.6),
+      0 14px 40px -6px oklch(0.72 0.17 244 / 0.85);
+  }
+  .btn-neon:active {
+    transform: translateY(0);
+  }
+
+  /* Ghost / secondary */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    background: oklch(0.25 0.036 258 / 0.6);
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    padding: 0.8rem 1.4rem;
+    transition:
+      border-color 0.3s ease,
+      background 0.3s ease,
+      transform 0.3s var(--ease-out-quint);
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-neon);
+    background: oklch(0.25 0.05 250 / 0.8);
+    transform: translateY(-2px);
+  }
+
+  /* Neon text emphasis (single solid color — no gradient-text) */
+  .text-neon {
+    color: var(--color-neon-bright);
+  }
+
+  /* Section title kicker used ONCE deliberately, not per-section */
+  .halo-ring {
+    box-shadow: 0 0 0 1px var(--color-line) inset;
+  }
+
+  /* Long-form Persian content (regulations, articles) */
+  .prose-fa h2 {
+    margin-block: 2rem 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--color-ink);
+  }
+  .prose-fa h2:first-child {
+    margin-block-start: 0;
+  }
+  .prose-fa h3 {
+    margin-block: 1.5rem 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+  .prose-fa p {
+    margin-block: 0.75rem;
+    line-height: 2.1;
+    color: var(--color-ink-2);
+  }
+  .prose-fa ul,
+  .prose-fa ol {
+    margin-block: 0.75rem;
+    padding-inline-start: 1.25rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .prose-fa li {
+    position: relative;
+    padding-inline-start: 1.1rem;
+    line-height: 2;
+    color: var(--color-ink-2);
+  }
+  .prose-fa li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 0.85em;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--color-neon);
+    box-shadow: 0 0 8px var(--color-neon);
+  }
+  .prose-fa strong {
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+  .prose-fa a {
+    color: var(--color-sky);
+    text-decoration: underline;
+  }
+
+  /* ================= Admin panel (light) ================= */
+  .admin-scope {
+    background: var(--color-admin-bg);
+    color: var(--color-admin-ink-2);
+    min-height: 100svh;
+    direction: rtl;
+  }
+  .admin-scope ::selection {
+    background: var(--color-admin-primary-weak);
+    color: var(--color-admin-ink);
+  }
+
+  .admin-card {
+    background: var(--color-admin-surface);
+    border: 1px solid var(--color-admin-line);
+    border-radius: 14px;
+  }
+
+  .admin-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--color-admin-primary-ink);
+    background: var(--color-admin-primary);
+    border-radius: 10px;
+    padding: 0.55rem 1rem;
+    transition: filter 0.2s ease, transform 0.2s var(--ease-out-quint);
+  }
+  .admin-btn:hover {
+    filter: brightness(1.06);
+  }
+  .admin-btn:active {
+    transform: translateY(1px);
+  }
+  .admin-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .admin-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--color-admin-ink);
+    background: var(--color-admin-surface);
+    border: 1px solid var(--color-admin-line-2);
+    border-radius: 10px;
+    padding: 0.55rem 1rem;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .admin-btn-ghost:hover {
+    background: var(--color-admin-surface-2);
+    border-color: var(--color-admin-muted);
+  }
+
+  .admin-btn-danger {
+    color: var(--color-admin-danger);
+    background: color-mix(in oklch, var(--color-admin-danger) 10%, white);
+    border: 1px solid color-mix(in oklch, var(--color-admin-danger) 30%, white);
+  }
+
+  .admin-input,
+  .admin-select,
+  .admin-textarea {
+    width: 100%;
+    background: var(--color-admin-surface);
+    border: 1px solid var(--color-admin-line-2);
+    border-radius: 10px;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-admin-ink);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .admin-input:focus,
+  .admin-select:focus,
+  .admin-textarea:focus {
+    border-color: var(--color-admin-primary);
+    box-shadow: 0 0 0 3px var(--color-admin-primary-weak);
+  }
+  .admin-label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-admin-muted);
+  }
+}
+
+@utility glow-sm {
+  box-shadow: 0 0 24px -6px oklch(0.72 0.17 244 / 0.55);
+}
+
+/* ---- Keyframes ---- */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes shimmer {
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Skeleton loading shimmer */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface);
+  border-radius: 8px;
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(0.4 0.05 255 / 0.18),
+    transparent
+  );
+  animation: shimmer 1.4s infinite;
+}
+
+/* ---- Swiper pagination bullets (neon) ---- */
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: var(--color-line-strong);
+  opacity: 1;
+  transition:
+    width 0.3s var(--ease-out-quint),
+    background 0.3s ease;
+}
+.swiper-pagination-bullet-active {
+  width: 26px;
+  border-radius: 99px;
+  background: var(--color-neon);
+  box-shadow: 0 0 12px var(--color-neon);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
